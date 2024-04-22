@@ -1,0 +1,27 @@
+{
+    "lib": ["es6", "es2015.promise"],
+    "compilerOptions": {
+      "lib": ["es6", "es2015.promise", "dom"],
+      "module": "commonjs",
+      "noImplicitAny": false,
+      "outDir": "build",
+      //"sourceMap": true, // For VScode debugger inlining is better
+      "inlineSourceMap": true,
+      "target": "esNEXT",
+      "allowJs": true,
+      //"noEmit": true,
+      // noEmit https://stackoverflow.com/questions/55002137/typescript-noemit-use-case
+      "resolveJsonModule": true,
+      "esModuleInterop": true,
+      "allowSyntheticDefaultImports": true,
+      "experimentalDecorators": true,
+      "moduleResolution": "node",
+      "isolatedModules": false,
+      "types": ["jest", "node"],
+      "baseUrl": ".",
+      "paths": {
+      }
+    },
+    "include": ["src/**/*.ts"]
+  }
+  

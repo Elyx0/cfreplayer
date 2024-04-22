@@ -1,0 +1,92 @@
+<html style="color:fff;background:#1c1c1c;overflow: visible;height: auto;width: auto;">
+<head>
+    <meta charset="UTF-8">
+    <title>Heatmap</title>
+    <!-- All the SEO tags-->
+    <meta name="description" content="Heatmap of kills and deaths in Curve Fever">
+    <meta name="keywords" content="Curve Fever, Heatmap, Kills, Deaths">
+    <meta name="author" content="Curve Fever">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" type="image/png" href="favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="../replay/v1.1/static/css/main.62de1537.chunk.css" rel="stylesheet" />
+</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/heatmap.js/2.0.0/heatmap.min.js" integrity="sha512-FpvmtV53P/z7yzv1TAIVH7PNz94EKXs5aV6ts/Zi+B/VeGU5Xwo6KIbwpTgKc0d4urD/BtkK50IC9785y68/AA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<body style="color:fff;background:#1c1c1c;overflow: visible;height: auto;width: auto;">
+    <style>
+        body h1 {
+            font-family: ChaneyRegular;
+            text-align: center;
+        }
+        div.heat {
+            background:grey;
+            margin:auto;
+            border:2px solid #eee;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+    </style>
+    <h1>Killing with speeds</h1>
+    <div id="heatmapContainer" class="heat" style="width: 922px; height: 763px;margin-bottom: 50px;"></div>
+    
+    <!-- <h1>Killing with speeds 4v4</h1>
+    <div id="kills4v4" style="width: 922px; height: 763px;margin-bottom: 50px;"></div>
+     -->
+
+    <h1>Killed by speeds</h1>
+
+    <div id="heatmapContainer2" class="heat" style="width: 922px; height: 763px;"></div>
+
+    <!-- <h1>Killed by speeds 4v4</h1>
+
+    <div id="deaths4v4" style="width: 922px; height: 763px;"></div> -->
+
+    <script>
+        function buildHeatmap(points, container) {
+            var heatmapInstance = h337.create({
+                container: document.getElementById(container),
+                radius: 35
+            });
+            // var points = [];
+            // for (var i = 0; i < 100; i++) {
+            //     var val = Math.floor(Math.random() * 100);
+            //     var point = {
+            //         x: Math.floor(Math.random() * 920),
+            //         y: Math.floor(Math.random() * 760),
+            //         value: val
+            //     };
+            //     points.push(point);
+            // }
+            heatmapInstance.setData({
+                max: 4,
+                data: points
+            });
+        }
+     
+        async function loadKills() {
+            // Load username from ?user= query parameter
+            const urlParams = new URLSearchParams(window.location.search);
+            const username = urlParams.get('user') || window.username;
+            const response = await fetch(`/kills/${username}`);
+            const data = await response.json();
+            console.log(data);
+            return data;
+        }
+
+        function filterTeam4v4(x) {
+           return x.gameType == "TEAM" && x.gameTeams == 2 && x.totalPlayers == 4
+        }
+        async function main() {
+            const data = await loadKills();
+            buildHeatmap(data.kills, 'heatmapContainer');
+            //buildHeatmap(data.kills.filter(filterTeam4v4), 'kills4v4');
+
+            buildHeatmap(data.deaths, 'heatmapContainer2');
+            //buildHeatmap(data.deaths.filter(filterTeam4v4), 'deaths4v4');
+        }
+        setTimeout(main, 1000);
+    </script>
+</body>
+</html>
