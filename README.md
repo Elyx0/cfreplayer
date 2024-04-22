@@ -17,3 +17,5 @@ Side project to crawl replays and teach browser automation on a specific use cas
 - Use nginx.example.conf
 
 - Serve using express
+
+Example vis: https://curvestats.com/heatmap/Crowly
